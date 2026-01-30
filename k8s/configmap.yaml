@@ -1,0 +1,8 @@
+apiVersion: v1 
+kind: ConfigMap 
+metadata: 
+ name: app-config 
+ namespace: app-deployment 
+data: 
+ log_level: "INFO" 
+ app_name: "MyKubernetesApp"
