@@ -1,0 +1,41 @@
+name: Build, Push Image & Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Build and push image
+      id: build
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        push: true
+        tags: |
+          makbhavin23/my-app:${{ github.sha }}
+
+    - name: Update Kubernetes deployment image
+      run: |
+        sed -i "s|image: .*my-app:.*|image: makbhavin23/my-app:${{ github.sha }}|" k8s/deployment.yaml
+
+    - name: Commit and push deployment update
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git add k8s/deployment.yaml
+        git commit -m "deploy: update image to ${{ github.sha }}"
+        git push
