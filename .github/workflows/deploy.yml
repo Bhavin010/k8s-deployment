@@ -60,11 +60,13 @@ jobs:
           git config --local user.name "github-actions[bot]"
           git add k8s/deployment.yaml
           if git diff --cached --exit-code > /dev/null; then
-            echo "No changes to commit"
+          echo "No changes to commit"
           else
-            git commit -m "chore: update image to ${{ github.sha }}"
-            git push
+          git commit -m "chore: update image to ${{ github.sha }}"
+          git remote set-url origin https://x-access-token:${{ secrets.K8S_REPO_PAT }}@github.com/Bhavin010/k8s-deployment.git
+          git push origin main
           fi
+
 
   test:
     runs-on: ubuntu-latest
