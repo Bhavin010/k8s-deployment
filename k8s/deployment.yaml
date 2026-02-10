@@ -12,6 +12,8 @@ spec:
     metadata:
       labels:
         app: my-app
+      annotations:
+        rollout-trigger: "2026-02-10-1610"
     spec:
       containers:
       - name: my-app
