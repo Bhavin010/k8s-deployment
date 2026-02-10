@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: my-app
-        image: makbhavin23/my-app:latest
+        image: bhavin010/my-app:${{ github.sha }}
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
