@@ -7,7 +7,7 @@ app = Flask(__name__)
 def home(): 
    return jsonify({ 
        "status": "success", 
-       "message": "Test GitHub Actions workflow, done", 
+       "message": "Test GitHub Actions workflow, session", 
        "environment": os.getenv('APP_ENV', 'development') 
    }) 
  
